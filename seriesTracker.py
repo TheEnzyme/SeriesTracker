@@ -9,7 +9,6 @@ BASE_SEARCH_URL = 'http://www.tvrage.com/search.php?search='
 EPISODES_URL = '/episode_list/all'
 
 
-
 def parse_series(series_div):
     '''
     Parse a bs tag containing a div to get series' title, last episode name and
@@ -50,9 +49,11 @@ def parse_series(series_div):
     if len(series_div.find_all('a')) == 3:
         last_air_date = series_div.find_all('dd')[1].contents[2]
         last_episode = series_div.find_all('a')[2].string
-        return title, episodes_url, last_air_date, last_episode
     else:
-        return title, episodes_url
+        last_air_date = u'unknown'
+        last_episode = u'unknown'
+
+    return title, episodes_url, last_air_date, last_episode
 
 def get_synopsis(episode_url):
     html = urlopen(episode_url).read()
@@ -141,10 +142,22 @@ def get_episodes(series_tuple):
     return episode_list
 
 def main():
-    results = search_series('Flash')
-    episode_list = get_episodes(results[0])
-    for episode in episode_list:
-        print (episode)
-
+    #results = search_series('Flash')
+    #episode_list = get_episodes(results[0])
+    #for episode in episode_list:
+    #    print (episode)
+    #    
+    print ( '1. Search for series \n2. Check for series updates \n3. ' )
+    decision = raw_input('#: ')
+    if decision == '1':
+        series = raw_input('Series:')
+        results = search_series(series)
+        for show in results:
+            show = show.encode("utf-8")
+            print ( '{0}: {1},{2}'.format(show[0], show[3], show[2] ))
+    #elif decision ==2:
+        
+        
+    
 if __name__ == '__main__':
     main()
