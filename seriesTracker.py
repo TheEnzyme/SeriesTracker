@@ -3,7 +3,7 @@
 from urllib import urlopen
 from bs4 import BeautifulSoup
 
-SYNOPSIS = False
+SYNOPSIS = True
 BASE_URL = 'http://www.tvrage.com'
 BASE_SEARCH_URL = 'http://www.tvrage.com/search.php?search='
 EPISODES_URL = '/episode_list/all'
@@ -50,8 +50,8 @@ def parse_series(series_div):
         last_air_date = series_div.find_all('dd')[1].contents[2]
         last_episode = series_div.find_all('a')[2].string
     else:
-        last_air_date = u'unknown'
-        last_episode = u'unknown'
+        last_air_date = u' Unknown'
+        last_episode  = u'Unknown'
 
     return title, episodes_url, last_air_date, last_episode
 
@@ -149,12 +149,29 @@ def main():
     #    
     print ( '1. Search for series \n2. Check for series updates \n3. ' )
     decision = raw_input('#: ')
+    
     if decision == '1':
-        series = raw_input('Series:')
-        results = search_series(series)
-        for show in results:
-            show = show.encode("utf-8")
-            print ( '{0}: {1},{2}'.format(show[0], show[3], show[2] ))
+        search_term = raw_input('Series: ')
+        series = search_series(search_term)
+        show_number = 1
+        for result in series:
+            printshow = []
+            for index in result:
+                printshow.append(''.join(index).encode("utf-8"))
+            
+            print ( '{0}. {1}: \n    {2} \n   {3}'.format( show_number,printshow[0], printshow[3], printshow[2] ))
+            show_number += 1
+        show = int(raw_input('Which series: ')) -1
+        episode_list = get_episodes(series[show])
+        
+        for episode in episode_list:
+            printep = []
+            for index in episode:
+                printep.append(''.join(index).encode("utf-8"))
+            if SYNOPSIS:
+                print ('{0}: {1} ({2}): \n {3}').format( printep[0], printep[1], printep[3], printep[4])
+            else:
+                print ('{0}: {1} ({2})').format( printep[0], printep[1], printep[3] )
     #elif decision ==2:
         
         

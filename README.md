@@ -21,4 +21,7 @@ it's only necessary to set SYNOPSIS to False.
 * Cache synopsis' to increase script speed.
 * Config file(s) to input shows and settings.
 * User friendly terminal interface.
+* Seperate terminal interface into a wrapper
+* Wrapper for inputting and creating config file
+* Bundle into pip package to take care of dependencies
 * 
