@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 
+from textwrap import fill
 from urllib import urlopen
 from bs4 import BeautifulSoup
 
@@ -147,7 +148,7 @@ def main():
     #for episode in episode_list:
     #    print (episode)
     #    
-    print ( '1. Search for series \n2. Check for series updates \n3. ' )
+    print ( '1. Search for series \n2. Check for series updates \n3. Generate input file to track shows' )
     decision = raw_input('#: ')
     
     if decision == '1':
@@ -169,7 +170,8 @@ def main():
             for index in episode:
                 printep.append(''.join(index).encode("utf-8"))
             if SYNOPSIS:
-                print ('{0}: {1} ({2}): \n {3}').format( printep[0], printep[1], printep[3], printep[4])
+                print ('{0}: {1} ({2}):').format( printep[0], printep[1], printep[3])
+                print (fill(printep[4], width=80, initial_indent = ' '*4, subsequent_indent=' '*4))
             else:
                 print ('{0}: {1} ({2})').format( printep[0], printep[1], printep[3] )
     #elif decision ==2:
