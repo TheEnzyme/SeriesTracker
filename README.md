@@ -24,4 +24,4 @@ it's only necessary to set SYNOPSIS to False.
 * Seperate terminal interface into a wrapper
 * Wrapper for inputting and creating config file
 * Bundle into pip package to take care of dependencies
-* 
+* Fake HTML formatted output, to make parsing not increase dependencies

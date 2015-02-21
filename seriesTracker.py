@@ -4,7 +4,7 @@ from textwrap import fill
 from urllib import urlopen
 from bs4 import BeautifulSoup
 
-SYNOPSIS = True
+SYNOPSIS = False
 BASE_URL = 'http://www.tvrage.com'
 BASE_SEARCH_URL = 'http://www.tvrage.com/search.php?search='
 EPISODES_URL = '/episode_list/all'
@@ -44,7 +44,6 @@ def parse_series(series_div):
     </div>
     '''
 
-    #print series.prettify()
     title = series_div.find_all('a')[0].string
     episodes_url = BASE_URL + series_div.find_all('a')[0]['href'] + EPISODES_URL
     if len(series_div.find_all('a')) == 3:
@@ -142,41 +141,3 @@ def get_episodes(series_tuple):
             episode_list.append(episode)
     return episode_list
 
-def main():
-    #results = search_series('Flash')
-    #episode_list = get_episodes(results[0])
-    #for episode in episode_list:
-    #    print (episode)
-    #    
-    print ( '1. Search for series \n2. Check for series updates \n3. Generate input file to track shows' )
-    decision = raw_input('#: ')
-    
-    if decision == '1':
-        search_term = raw_input('Series: ')
-        series = search_series(search_term)
-        show_number = 1
-        for result in series:
-            printshow = []
-            for index in result:
-                printshow.append(''.join(index).encode("utf-8"))
-            
-            print ( '{0}. {1}: \n    {2} \n   {3}'.format( show_number,printshow[0], printshow[3], printshow[2] ))
-            show_number += 1
-        show = int(raw_input('Which series: ')) -1
-        episode_list = get_episodes(series[show])
-        
-        for episode in episode_list:
-            printep = []
-            for index in episode:
-                printep.append(''.join(index).encode("utf-8"))
-            if SYNOPSIS:
-                print ('{0}: {1} ({2}):').format( printep[0], printep[1], printep[3])
-                print (fill(printep[4], width=80, initial_indent = ' '*4, subsequent_indent=' '*4))
-            else:
-                print ('{0}: {1} ({2})').format( printep[0], printep[1], printep[3] )
-    #elif decision ==2:
-        
-        
-    
-if __name__ == '__main__':
-    main()
